@@ -8,6 +8,7 @@ import javax.validation.Validator;
 import java.math.BigDecimal;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
 
@@ -40,5 +41,10 @@ public class CreateReceiptRequestTest {
 
         validator.validate(receipt);
         assertThat(validator.validate(receipt), hasSize(1));
+    }
+    @Test
+    public void testValidTag() {
+        int id =10;
+        assertThat(id,greaterThan(0));
     }
 }

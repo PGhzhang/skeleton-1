@@ -13,24 +13,28 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
-@Path("/receipts")
+@Path("/tags")
+
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class ReceiptController {
+
+public class TagController {
     final ReceiptDao receipts;
 
-    public ReceiptController(ReceiptDao receipts) {
+    public TagController(ReceiptDao receipts) {
         this.receipts = receipts;
     }
-
-    @POST
-    public int createReceipt(@Valid @NotNull CreateReceiptRequest receipt) {
-        return receipts.insert(receipt.merchant, receipt.amount);
-    }
-
     @GET
-    public List<ReceiptResponse> getReceipts() {
-        List<ReceiptsRecord> receiptRecords = receipts.getAllReceipts();
+    @Path("/{tag}")
+    public List<ReceiptResponse> getTag(@PathParam("tag") String tagName){
+        List<ReceiptsRecord> receiptRecords = receipts.getTag(tagName);
+        if(receiptRecords==null)
+            return null;
         return receiptRecords.stream().map(ReceiptResponse::new).collect(toList());
+    }
+    @PUT
+    @Path("/{tag}")
+    public void changeTag(@PathParam("tag") String tagName,@Valid @NotNull int receipt_id) {
+        receipts.changeTag(receipt_id,tagName);
     }
 }
