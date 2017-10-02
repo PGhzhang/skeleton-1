@@ -15,6 +15,6 @@ public class NetidController {
 
     @GET
     public String helloWorld() {
-        return "hn329";
+        return "hz464";
     }
 }
